@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Test-Index";
+}
+
+@model List<TurkcellDemo.Web.Controllers.ExampleData>;
+
+<h1>Index</h1>
+
+<h3>@DateTime.Now.ToShortDateString()</h3>
+
+<p>@ViewBag.name</p>
+
+@{
+    var name = ViewBag.name;
+    <p>@name</p>
+}
+
+
+<p>Age of user: @ViewData["age"]</p>
+
+<p class="fw-bold">ViewData List names:</p>
+<ul>
+    @foreach (var data in ViewData["names"] as List<string>)
+    {
+        <li>@data.ToUpper()</li>
+    }
+</ul>
+
+<p class="fw-bold">ExampleData List:</p>
+<ul>
+    @foreach (var data in Model)
+    {
+        <li>Id: @data.Id | Name: @data.Name</li>
+    }
+</ul>

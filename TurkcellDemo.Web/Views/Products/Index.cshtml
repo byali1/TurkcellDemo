@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Products - Index";
+}
+
+@model List<Product>
+
+<h3>Products Controller - Index</h3>
+
+<div class="text-center my-3">
+    <a asp-controller="Products" asp-action="AddProduct"> <button class="btn btn-primary">Add</button></a>
+</div>
+
+
+@if (Model.Count > 0)
+{
+    <table class="table table-striped text-center">
+
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.Stock</td>
+                    <td>
+                        <a asp-controller="Products" asp-action="UpdateProduct" asp-route-id="@product.Id"> <button class="btn btn-warning">Update</button></a>
+                        <a asp-controller="Products" asp-action="DeleteProduct" asp-route-id="@product.Id"> <button class="btn btn-danger">Delete</button></a>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+}
+else
+{
+    <partial name="PartialViews/_NoFoundData" />
+}
+
