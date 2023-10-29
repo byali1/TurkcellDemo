@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using TurkcellDemo.Web.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<TurkcellDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
 var app = builder.Build();
 

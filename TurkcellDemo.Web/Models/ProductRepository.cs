@@ -4,19 +4,7 @@
     {
         private static List<Product> _products = new List<Product>()
         {
-            new()
-            {
-                Id = 1,
-                Name = "Telefon",
-                Price = 20,
-                Stock = 100
-            },
-            new(){
-            Id = 2,
-            Name = "Monitor 4K",
-            Price = 20000,
-            Stock = 200
-                }
+            
         };
 
         public List<Product> GetAll() => _products;
