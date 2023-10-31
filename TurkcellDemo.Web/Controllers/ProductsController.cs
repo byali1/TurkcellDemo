@@ -5,7 +5,7 @@ namespace TurkcellDemo.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ProductRepository _productRepository;
+        //private readonly ProductRepository _productRepository;
         private readonly TurkcellDbContext _turkcellDbContext;
 
         public ProductsController(TurkcellDbContext turkcellDbContext)
@@ -18,7 +18,7 @@ namespace TurkcellDemo.Web.Controllers
                 int productNo = 1;
                 int productPrice = 80000;
                 int productStock = 210;
-                
+
 
                 for (int i = 0; i < 30; i++)
                 {
@@ -27,9 +27,8 @@ namespace TurkcellDemo.Web.Controllers
                         Name = productName,
                         Price = productPrice,
                         Stock = productStock,
-                        Color="Siyah",
-                        Height = 20,
-                        Width = 15
+                        Color = "Siyah"
+
                     });
                     productPrice += 100;
                     productStock += 10;
@@ -55,22 +54,52 @@ namespace TurkcellDemo.Web.Controllers
             {
                 _turkcellDbContext.Products.Remove(product);
                 _turkcellDbContext.SaveChanges();
+                TempData["status"] = "Product has been deleted.";
             }
+            
 
             return RedirectToAction("Index");
 
         }
-        public IActionResult AddProduct()
+        [HttpGet]
+        public IActionResult Add()
         {
 
             return View();
 
         }
 
-        public IActionResult UpdateProduct(int id)
+        [HttpPost]
+        public IActionResult CreateProduct(Product newProduct)
         {
 
-            return View();
+            _turkcellDbContext.Products.Add(newProduct);
+            _turkcellDbContext.SaveChanges();
+
+            TempData["status"] = "Product has been added.";
+
+            return RedirectToAction("Index");
+
+        }
+
+        
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var product = _turkcellDbContext.Products.Find(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateProduct(Product updateProduct)
+        {
+            _turkcellDbContext.Products.Update(updateProduct);
+            _turkcellDbContext.SaveChanges();
+
+            TempData["status"] = "Product has been updated.";
+
+            return RedirectToAction("Index");
 
         }
     }
