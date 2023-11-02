@@ -39,6 +39,9 @@
                 <th scope="col">Price</th>
                 <th scope="col">Stock</th>
                 <th scope="col">Color</th>
+                <th scope="col">IsPublish</th>
+                <th scope="col">PublishExpireTime</th>
+
                
                 <th scope="col">Actions</th>
             </tr>
@@ -54,7 +57,28 @@
                     <td>@product.Price</td>
                     <td>@product.Stock</td>
                     <td>@product.Color</td>
+                    @if (@product.IsPublish)
+                    {
+                        <td>
+                            <svg  width="24" height="24" fill="currentColor" class="bi bi-circle-fill text-success status-icon" viewBox="0 0 16 16">
+                            <circle cx="8" cy="8" r="8"/>
+                        </svg>
+                            <span class="status-published border-bottom border-success text-success ms-2">Published</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <svg  width="24" height="24" fill="currentColor" class="bi bi-circle-fill text-danger status-icon" viewBox="0 0 16 16">
+                                <circle cx="8" cy="8" r="8" />
+                            </svg>
+                            <span class="status-published border-bottom border-danger  text-danger ms-2">Not Published</span>
+                        </td>
+                    }
+
+                    <td>@product.PublishExpireTime</td>
                     
+
                     <td>
                         <a asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="me-2">
                             <button class="btn btn-warning">

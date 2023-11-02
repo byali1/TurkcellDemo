@@ -56,7 +56,7 @@ namespace TurkcellDemo.Web.Controllers
                 _turkcellDbContext.SaveChanges();
                 TempData["status"] = "Product has been deleted.";
             }
-            
+
 
             return RedirectToAction("Index");
 
@@ -64,7 +64,13 @@ namespace TurkcellDemo.Web.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-
+            ViewBag.PublishExpireTime = new Dictionary<string, int>()
+            {
+                { "1 month", 1 },
+                { "3 months", 3 },
+                { "6 months", 6 },
+                { "12 months", 12 }
+            };
             return View();
 
         }
@@ -82,7 +88,7 @@ namespace TurkcellDemo.Web.Controllers
 
         }
 
-        
+
 
         [HttpGet]
         public IActionResult Update(int id)

@@ -17,17 +17,30 @@
             
             <input type="hidden" asp-for="Id"/>
 
-            <label class="fw-normal">Name</label>
-            <input type="text" asp-for="Name" class="form-control" required />
+            <div class="mb-2">
+                <label class="fw-normal">Name</label>
+                <input type="text" asp-for="Name" class="form-control" required />
+            </div>
 
-            <label>Price</label>
-            <input type="text" asp-for="Price"  class="form-control"  required />
+            <div class="mb-2">
+                <label>Price</label>
+                <input asp-for="Price" class="form-control" min="1" required />
+            </div>
 
-            <label>Stock</label>
-            <input type="text" asp-for="Stock" class="form-control" required />
+            <div class="mb-2">
+                <label>Stock</label>
+                <input asp-for="Stock" class="form-control" min="1" required />
+            </div>
 
-            <label>Color</label>
-            <input type="text" asp-for="Color" class="form-control" />
+            <div class="mb-2">
+                <label>Color</label>
+                <input type="text" asp-for="Color" class="form-control" />
+            </div>
+            
+            <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" asp-for="IsPublish" role="switch">
+                <label class="form-check-label">Is Published ?</label>
+            </div>
 
             <div class="text-center mt-3">
                 <button type="submit" class="btn btn-warning">Update</button>

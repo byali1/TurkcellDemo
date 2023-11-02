@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TurkcellDemo.Web.Models;
 
@@ -10,9 +11,10 @@ using TurkcellDemo.Web.Models;
 namespace TurkcellDemo.Web.Migrations
 {
     [DbContext(typeof(TurkcellDbContext))]
-    partial class TurkcellDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231102094937_AddPublishExpireTimeForProduct")]
+    partial class AddPublishExpireTimeForProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
