@@ -9,6 +9,8 @@
         public string? Color { get; set; }
         public bool IsPublish { get; set; } = false;
         public int PublishExpireTime { get; set; }
+        public string? Description { get; set; }
+        public DateTime? PublishedTime{ get; set; }
 
 
     }

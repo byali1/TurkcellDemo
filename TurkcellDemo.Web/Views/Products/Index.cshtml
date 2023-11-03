@@ -8,17 +8,17 @@
 
 @if (TempData["status"] != null)
 {
-@section Scripts{
+    @section Scripts{
     <script>
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: '@TempData["status"]',
-                showConfirmButton: false,
-                timerProgressBar: true,
-                timer: 2500
-            })
-        
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '@TempData["status"]',
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 2500
+        })
+
     </script>
 }
 }
@@ -40,9 +40,11 @@
                 <th scope="col">Stock</th>
                 <th scope="col">Color</th>
                 <th scope="col">IsPublish</th>
-                <th scope="col">PublishExpireTime</th>
+                <th scope="col">PublishExpireTime(M)</th>
+                <th scope="col">Description</th>
+                <th scope="col">PublishedTime</th>
 
-               
+
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -56,28 +58,79 @@
                     <td>@product.Name</td>
                     <td>@product.Price</td>
                     <td>@product.Stock</td>
-                    <td>@product.Color</td>
-                    @if (@product.IsPublish)
-                    {
-                        <td>
-                            <svg  width="24" height="24" fill="currentColor" class="bi bi-circle-fill text-success status-icon" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
-                        </svg>
+                    <td>
+                        
+                        @if (@product.Color != null)
+                        {
+                            @product.Color
+                        }
+                        else
+                        {
+                            <abbr title="No color entered">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-excel-fill text-dark" viewBox="0 0 16 16">
+                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.884 6.68 8 9.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 10l2.233 2.68a.5.5 0 0 1-.768.64L8 10.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 10 5.116 7.32a.5.5 0 1 1 .768-.64z"/>
+                                </svg>
+                            </abbr>
+                        }
+                    </td>
+
+                    <td>
+                        @if (@product.IsPublish)
+                        {
+                            <svg width="24" height="24" fill="currentColor" class="bi bi-circle-fill text-success status-icon" viewBox="0 0 16 16">
+                                <circle cx="8" cy="8" r="8" />
+                            </svg>
                             <span class="status-published border-bottom border-success text-success ms-2">Published</span>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <svg  width="24" height="24" fill="currentColor" class="bi bi-circle-fill text-danger status-icon" viewBox="0 0 16 16">
+                        }
+                        else
+                        {
+                            <svg width="24" height="24" fill="currentColor" class="bi bi-circle-fill text-danger status-icon" viewBox="0 0 16 16">
                                 <circle cx="8" cy="8" r="8" />
                             </svg>
                             <span class="status-published border-bottom border-danger  text-danger ms-2">Not Published</span>
-                        </td>
-                    }
+                        }
+                    </td>
 
                     <td>@product.PublishExpireTime</td>
+
+                    <td> 
+                        @if (@product.Description != null)
+                        {
+                            if (@product.Description.Length >= 15)
+                            {
+                                @* İlk 15 karakter alınacak *@
+                                @product.Description.Substring(0, 15)
+
+                                <text>...</text>
+                            }
+                            else
+                            {
+                                @product.Description
+                            }
+                        }
+                        else
+                        {
+                            <abbr title="No description">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-excel-fill text-dark" viewBox="0 0 16 16">
+                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.884 6.68 8 9.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 10l2.233 2.68a.5.5 0 0 1-.768.64L8 10.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 10 5.116 7.32a.5.5 0 1 1 .768-.64z"/>
+                            </svg>
+                            </abbr>
+                        }
+                        
+                    </td>
                     
+                    <td>
+                        @if (@product.PublishedTime != null)
+                        {
+                            @product.PublishedTime
+                        }
+                        else
+                        {
+                            <p>Unknown</p>
+                        }
+                    </td>
+
+
 
                     <td>
                         <a asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="me-2">

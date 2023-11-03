@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TurkcellDemo.Web.Models;
 
 namespace TurkcellDemo.Web.Controllers
@@ -71,6 +72,16 @@ namespace TurkcellDemo.Web.Controllers
                 { "6 months", 6 },
                 { "12 months", 12 }
             };
+
+            ViewBag.ColorSelect = new SelectList(new List<ColorSelectList>()
+            {
+                new (){Color="Mavi",Value ="Mavi" },
+                new (){Color="Kırmızı",Value ="Kırmızı" },
+                new (){Color="Siyah",Value ="Siyah" },
+                new (){Color="Standart",Value ="Standart" }
+
+            }, "Value", "Color");
+
             return View();
 
         }
@@ -94,6 +105,25 @@ namespace TurkcellDemo.Web.Controllers
         public IActionResult Update(int id)
         {
             var product = _turkcellDbContext.Products.Find(id);
+
+            ViewBag.PublishExpireValue = product.PublishExpireTime;
+
+            ViewBag.PublishExpireTime = new Dictionary<string, int>()
+            {
+                { "1 month", 1 },
+                { "3 months", 3 },
+                { "6 months", 6 },
+                { "12 months", 12 }
+            };
+
+            ViewBag.ColorSelect = new SelectList(new List<ColorSelectList>()
+            {
+                new (){Color="Mavi",Value ="Mavi" },
+                new (){Color="Kırmızı",Value ="Kırmızı" },
+                new (){Color="Siyah",Value ="Siyah" },
+                new (){Color="Standart",Value ="Standart" }
+
+            }, "Value", "Color", product.Color);
             return View(product);
         }
 

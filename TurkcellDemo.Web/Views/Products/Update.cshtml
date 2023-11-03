@@ -14,8 +14,8 @@
     <div class="d-flex justify-content-center">
 
         <form asp-controller="Products" asp-action="UpdateProduct" class="w-25" method="post">
-            
-            <input type="hidden" asp-for="Id"/>
+
+            <input type="hidden" asp-for="Id" />
 
             <div class="mb-2">
                 <label class="fw-normal">Name</label>
@@ -33,15 +33,48 @@
             </div>
 
             <div class="mb-2">
-                <label>Color</label>
-                <input type="text" asp-for="Color" class="form-control" />
+                <label asp-for="Color">Color</label>
+                <select class="form-select" asp-for="Color" asp-items="@ViewBag.ColorSelect">
+                    <option value="">Renk seçiniz</option>
+                </select>
             </div>
-            
+
             <div class="form-check form-switch mb-2">
                 <input class="form-check-input" type="checkbox" asp-for="IsPublish" role="switch">
                 <label class="form-check-label">Is Published ?</label>
             </div>
 
+            @*Yeni V3*@
+
+            <div class="my-3">
+                <p class="fw-bold sm-font"> Duration of Publish Time:</p>
+                <div class="d-flex justify-content-evenly">
+
+                    @foreach (var item in ViewBag.PublishExpireTime as Dictionary<string, int>)
+                    {
+                        <div class="form-check">
+
+                            <input checked="@(item.Value==ViewBag.PublishExpireValue ? true : false)" class="form-check-input" type="radio" asp-for="PublishExpireTime" id="Expire@(item.Value)" value="@item.Value">
+
+                            <label class="form-check-label" asp-for="PublishExpireTime" for="Expire@(item.Value)">
+                                @item.Key
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea class="form-control" placeholder="Features of product:" asp-for="Description"></textarea>
+                <label asp-for="Description">Features of product:</label>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PublishedTime" class="">Published Time</label>
+                <input asp-for="PublishedTime" class="form-control" />
+            </div>
+
+            @*Update button*@
             <div class="text-center mt-3">
                 <button type="submit" class="btn btn-warning">Update</button>
             </div>
