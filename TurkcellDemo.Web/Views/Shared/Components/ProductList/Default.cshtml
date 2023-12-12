@@ -1,0 +1,21 @@
+﻿@model List<ProductListDescriptionComponentViewModel>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+       
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Description</td>
+        </tr>
+
+    }
+    </tbody>
+</table>

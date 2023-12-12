@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TurkcellDemo.Web.Models;
+using TurkcellDemo.Web.ViewModels;
 
 namespace TurkcellDemo.Web.Controllers
 {
@@ -8,10 +10,12 @@ namespace TurkcellDemo.Web.Controllers
     {
         //private readonly ProductRepository _productRepository;
         private readonly TurkcellDbContext _turkcellDbContext;
+        private readonly IMapper _mapper;
 
-        public ProductsController(TurkcellDbContext turkcellDbContext)
+        public ProductsController(TurkcellDbContext turkcellDbContext, IMapper mapper)
         {
             _turkcellDbContext = turkcellDbContext;
+            _mapper = mapper;
 
             if (!_turkcellDbContext.Products.Any())
             {
@@ -44,7 +48,7 @@ namespace TurkcellDemo.Web.Controllers
         public IActionResult Index()
         {
             var products = _turkcellDbContext.Products.ToList();
-            return View(products);
+            return View(_mapper.Map<List<ProductViewModel>>(products));
         }
 
         public IActionResult DeleteProduct(int id)
@@ -87,18 +91,67 @@ namespace TurkcellDemo.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(Product newProduct)
+        public IActionResult CreateProduct(ProductViewModel newProduct)
         {
+            ViewBag.PublishExpireTime = new Dictionary<string, int>()
+            {
+                { "1 month", 1 },
+                { "3 months", 3 },
+                { "6 months", 6 },
+                { "12 months", 12 }
+            };
 
-            _turkcellDbContext.Products.Add(newProduct);
-            _turkcellDbContext.SaveChanges();
+            ViewBag.ColorSelect = new SelectList(new List<ColorSelectList>()
+            {
+                new (){Color="Mavi",Value ="Mavi" },
+                new (){Color="Kırmızı",Value ="Kırmızı" },
+                new (){Color="Siyah",Value ="Siyah" },
+                new (){Color="Standart",Value ="Standart" }
 
-            TempData["status"] = "Product has been added.";
+            }, "Value", "Color");
 
-            return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //throw new Exception("DB hatası");
+                    _turkcellDbContext.Products.Add(_mapper.Map<Product>(newProduct));
+                    _turkcellDbContext.SaveChanges();
+
+                    TempData["status"] = "Product has been added.";
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError(String.Empty, "Bir hata oldu! Daha sonra tekrar dene.");
+                    return View("Add");
+                }
+            }
+
+
+
+            return View("Add");
+
+
+
 
         }
 
+
+        [AcceptVerbs("GET","POST")]
+        public IActionResult HasProductName(string name)
+        {
+            var anyProduct = _turkcellDbContext.Products.Any(x => x.Name.ToLower() == name.ToLower());
+
+            if (anyProduct)
+            {
+                return Json("Bu ürün zaten mevcut");
+            }
+
+            return Json(true);
+        }
 
 
         [HttpGet]
@@ -124,13 +177,36 @@ namespace TurkcellDemo.Web.Controllers
                 new (){Color="Standart",Value ="Standart" }
 
             }, "Value", "Color", product.Color);
-            return View(product);
+
+            return View(_mapper.Map<ProductViewModel>(product));
         }
 
         [HttpPost]
-        public IActionResult UpdateProduct(Product updateProduct)
+        public IActionResult UpdateProduct(ProductViewModel updateProduct)
         {
-            _turkcellDbContext.Products.Update(updateProduct);
+
+            if (!ModelState.IsValid)
+            {
+               
+                ViewBag.PublishExpireTime = new Dictionary<string, int>()
+                {
+                    { "1 month", 1 },
+                    { "3 months", 3 },
+                    { "6 months", 6 },
+                    { "12 months", 12 }
+                };
+
+                ViewBag.ColorSelect = new SelectList(new List<ColorSelectList>()
+                {
+                    new (){Color="Mavi",Value ="Mavi" },
+                    new (){Color="Kırmızı",Value ="Kırmızı" },
+                    new (){Color="Siyah",Value ="Siyah" },
+                    new (){Color="Standart",Value ="Standart" }
+
+                }, "Value", "Color", updateProduct.Color);
+            }
+
+            _turkcellDbContext.Products.Update(_mapper.Map<Product>(updateProduct));
             _turkcellDbContext.SaveChanges();
 
             TempData["status"] = "Product has been updated.";

@@ -1,0 +1,43 @@
+﻿@model VisitorViewModel
+
+
+@if (TempData["result"] != null)
+{
+    <div class="d-flex justify-content-center mt-4">
+        <div class="alert alert-primary text-primary alert-dismissible fade show w-50 text-center" role="alert">
+            <span class="fw-bold">@TempData["result"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+
+<form class="my-3 text-center " asp-controller="Home" asp-action="SaveVisitorComment" method="post">
+
+    <div class="border border-dark rounded p-3 ">
+        <div class="mb-3">
+            <input asp-for="Name" class="form-control" placeholder="Your name">
+        </div>
+
+        <div class="mb-3 form-floating">
+            <textarea asp-for="Comment" class="form-control"></textarea>
+            <label asp-for="Comment" class="form-label">Your Comment</label>
+        </div>
+
+        <button class="btn btn-dark ">Save</button>
+    </div>
+
+</form>
+
+<h5>Comments:</h5>
+@foreach (var item in ViewBag.visitorViewModels as List<VisitorViewModel>)
+{
+    <div class="border rounded mb-1">
+        <div class="fw-bold text-uppercase ms-2">@item.Name</div>
+        <div class="fst-italic ms-3">@item.Comment</div>
+        <div class="fw-lighter d-flex justify-content-end">@item.Created</div>
+    </div>
+}
+
+
+

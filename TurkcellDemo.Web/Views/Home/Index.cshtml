@@ -1,24 +1,49 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var product = new Product() { Id = 31, Name = "Kalem", Price = 100, Stock = 200 };
 }
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>home controller works for Index.cshtml</p>
+
+    <italic>ProductShowTagHelper:</italic>
+
+    <product-show Product="@product"></product-show>
+    
+    <img src="images/car.jpg" class="img-fluid"/>
+    <image-thumbnail image-src="images/car.jpg"></image-thumbnail>
+
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <partial name="~/PartialViews/_ProductListPartial.cshtml" model="@ViewBag.productListPartialViewModel" />
+        </div>
+
+        <div class="col-md-6">
+            @* @await Component.InvokeAsync("ProductList",new{type=1}) *@
+            <vc:product-list type=1></vc:product-list>
+        </div>
+
+        <div class="w-50">
+            <vc:visitor></vc:visitor>
+        </div>
+
+    </div>
 </div>
 
 @section Scripts
-{
+    {
     <script type="text/javascript">
         // alert("welcome");
     </script>
 }
 
 @section Css
-{
+    {
     <style>
-        #test{
-            color:red;
+        #test {
+            color: red;
         }
     </style>
 }

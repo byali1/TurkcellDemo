@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "UpdateProduct";
 }
-@model Product
+@model ProductViewModel
 <div class="row my-3">
 
     <h3 class="text-center">
@@ -19,17 +19,22 @@
 
             <div class="mb-2">
                 <label class="fw-normal">Name</label>
-                <input type="text" asp-for="Name" class="form-control" required />
+                <input type="text" asp-for="Name" class="form-control"  />
+                <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
             <div class="mb-2">
                 <label>Price</label>
-                <input asp-for="Price" class="form-control" min="1" required />
+                <input asp-for="Price" class="form-control" min="1"  />
+                <span class="text-danger" asp-validation-for="Price"></span>
+
             </div>
 
             <div class="mb-2">
                 <label>Stock</label>
-                <input asp-for="Stock" class="form-control" min="1" required />
+                <input asp-for="Stock" class="form-control" min="1"  />
+                <span class="text-danger" asp-validation-for="Stock"></span>
+
             </div>
 
             <div class="mb-2">
@@ -37,6 +42,8 @@
                 <select class="form-select" asp-for="Color" asp-items="@ViewBag.ColorSelect">
                     <option value="">Renk seçiniz</option>
                 </select>
+                <span class="text-danger" asp-validation-for="Color"></span>
+
             </div>
 
             <div class="form-check form-switch mb-2">
@@ -62,16 +69,22 @@
                         </div>
                     }
                 </div>
+                <span class="text-danger" asp-validation-for="PublishExpireTime"></span>
+
             </div>
 
             <div class="form-floating mb-3">
                 <textarea class="form-control" placeholder="Features of product:" asp-for="Description"></textarea>
                 <label asp-for="Description">Features of product:</label>
+                <span class="text-danger" asp-validation-for="Description"></span>
+
             </div>
 
             <div class="mb-3">
                 <label asp-for="PublishedTime" class="">Published Time</label>
                 <input asp-for="PublishedTime" class="form-control" />
+                <span class="text-danger" asp-validation-for="PublishedTime"></span>
+
             </div>
 
             @*Update button*@
@@ -84,3 +97,9 @@
 
 </div>
 
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}

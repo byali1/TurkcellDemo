@@ -33,3 +33,10 @@
         <li>Id: @data.Id | Name: @data.Name</li>
     }
 </ul>
+
+<div class="row d-flex justify-content-center">
+    <div class="col-md-6">
+        @* @await Component.InvokeAsync("ProductList",new {type=2}) *@
+        <vc:product-list type=2></vc:product-list>
+    </div>
+</div>
