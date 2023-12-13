@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "GetById";
+}
+@model ProductViewModel
+
+<h1 class="mb-3">GetById</h1>
+
+<a class="border rounded border-primary text-primary p-2" asp-controller="Products" asp-action="Index">Go back</a>
+
+<a class="border rounded border-primary text-primary p-2" asp-route="AllProducts">Go back V2</a>
+
+<div class="border p-2 mt-3">
+    <p class="fw-bold mb-2">@Model.Name</p>
+    <ul>
+        <li>Color: @Model.Color</li>
+        <li>Price: @Model.Price</li>
+        <li>Published Time: @Model.PublishedTime</li>
+        <li>Description: @Model.Description</li>
+    </ul>
+</div>

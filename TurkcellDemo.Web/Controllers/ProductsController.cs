@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using TurkcellDemo.Web.Models;
 using TurkcellDemo.Web.ViewModels;
 
 namespace TurkcellDemo.Web.Controllers
 {
+    [Route("[controller]")]
     public class ProductsController : Controller
     {
         //private readonly ProductRepository _productRepository;
@@ -45,11 +47,32 @@ namespace TurkcellDemo.Web.Controllers
             }
         }
 
+        [Route("[action]", Name = "AllProducts")]
         public IActionResult Index()
         {
             var products = _turkcellDbContext.Products.ToList();
             return View(_mapper.Map<List<ProductViewModel>>(products));
         }
+
+        [Route("[action]/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var product = _turkcellDbContext.Products.Find(id);
+            return View(_mapper.Map<ProductViewModel>(product));
+        }
+
+        [Route("[action]/{page}/{pageSize}")]
+        public IActionResult Pages(int page, int pageSize)
+        {
+            var products = _turkcellDbContext.Products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.page = page;
+            ViewBag.pageSize = pageSize;
+
+            return View(_mapper.Map<List<ProductViewModel>>(products));
+        }
+
+
 
         public IActionResult DeleteProduct(int id)
         {
@@ -140,7 +163,7 @@ namespace TurkcellDemo.Web.Controllers
         }
 
 
-        [AcceptVerbs("GET","POST")]
+        [AcceptVerbs("GET", "POST")]
         public IActionResult HasProductName(string name)
         {
             var anyProduct = _turkcellDbContext.Products.Any(x => x.Name.ToLower() == name.ToLower());
@@ -187,7 +210,7 @@ namespace TurkcellDemo.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-               
+
                 ViewBag.PublishExpireTime = new Dictionary<string, int>()
                 {
                     { "1 month", 1 },

@@ -6,6 +6,7 @@ using TurkcellDemo.Web.ViewModels;
 
 namespace TurkcellDemo.Web.Controllers
 {
+    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,6 +18,8 @@ namespace TurkcellDemo.Web.Controllers
             _turkcellDbContext = turkcellDbContext;
             _mapper = mapper;
         }
+
+
 
         public IActionResult Index()
         {
@@ -67,6 +70,7 @@ namespace TurkcellDemo.Web.Controllers
             }
             catch (Exception)
             {
+
                 TempData["result"] = "[ERROR] Your comment has NOT been saved!";
                 return RedirectToAction("Visitor");
             }
